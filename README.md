@@ -2,6 +2,21 @@
 
 **2-D photoluminescence mapper with serpentine scanning via PyVISA**
 
+---
+
+![Tests](https://img.shields.io/badge/tests-9%20passed-brightgreen)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+---
+
+## Context
+
+Developed during the F014 — Experimental Physics course at UNICAMP (2023), and actively used in ongoing PIBIC research on CsPbBr₃ perovskite nanoplatelets and TTA-UC (triplet–triplet annihilation upconversion) phenomena. The project grew from a course assignment into a production tool used for real experimental data acquisition in an ultrafast spectroscopy lab.
+
+---
+
+
 Automates spatial mapping of photoluminescence (PL) intensity using a motorised XY stage and an optical detector, controlled through [PyVISA](https://pyvisa.readthedocs.io/). Built for the photonics lab at [IFGW/UNICAMP](https://portal.ifi.unicamp.br/) under Prof. Dr. Lázaro A. Padilha.
 
 ![Heatmap example](docs/heatmap_example.png)
@@ -37,7 +52,7 @@ pl_mapper/
 
 **Key design decisions:**
 
-- **Protocol-based instrument abstraction** — `Motor` and `Detector` are Python `Protocol` classes. The scan loop doesn't know (or care) whether it's talking to real VISA hardware or a simulated backend. This makes the code testable offline and extensible to different controllers.
+- **Protocol-based instrument abstraction** — `Motor` and `Detector` are Python `Protocol` classes. The scan loop doesn't know (or care) whether it's talking to real VISA hardware or a simulated backend. This makes the code testable offline and extensible to different controllers. Why it metters? Makes the codebase testable without hardware and extensible to any VISA-compatible controller. Reduced development iteration time by enabling full offline testing.
 - **Dataclass configuration** — `ScanConfig` holds every parameter with validation, derived properties (grid shape, output paths), and sensible defaults. No magic numbers in the scan logic.
 - **Simulation mode** — pass `--simulate` and the entire pipeline runs without hardware, using `numpy.random` for intensities. Useful for development, CI, and demonstrations.
 
@@ -119,12 +134,6 @@ tests/test_scanner.py::TestSerpentineScan::test_csv_output_created PASSED
 | **pytest** | Unit and integration testing |
 | **dataclasses** | Typed, validated configuration |
 | **Protocol (typing)** | Interface abstraction for instruments |
-
----
-
-## Context
-
-Developed for the **F014 — Experimental Physics** course at UNICAMP (2023), and actively used in the photonics research group for TTA-UC (triplet–triplet annihilation upconversion) experiments on CsPbBr₃ perovskite nanoplatelets.
 
 ---
 
